@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 
 class base_etl:
-    def __init__():
-        raise NotImplementedError()
-
     def read_data():
         raise NotImplementedError()
 
