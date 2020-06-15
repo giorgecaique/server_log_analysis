@@ -1,11 +1,15 @@
 import pytest
 from unittest import mock
-from pyspark.sql.DataFrame
 from etl.etl_logs import etl_server_logs
 from pyspark.sql.readwriter import DataFrameWriter
 from pyspark import SparkContext
 
 class test_etl_logs():
+    def test_commons():
+        assert callable(getattr(etl_server_logs,'read_data')) 
+        assert callable(getattr(etl_server_logs,'transform')) 
+        assert callable(getattr(etl_server_logs,'export_data')) 
+
     @mock.path.object(SparkContext, 'textFile')
     def test_read_data(text_file_patch):
         test_input_path = 'abc'
@@ -77,7 +81,7 @@ class test_etl_logs():
         assert parquet_patch.called
 
     def test_transform():
-        test_data = [test_row = 'in24.inetnebr.com - - [01/Aug/1995:00:00:01 -0400] "GET /shuttle/missions/sts-68/news/sts-68-mcc-05.txt HTTP/1.0" 200 1839']
+        test_data = ['in24.inetnebr.com - - [01/Aug/1995:00:00:01 -0400] "GET /shuttle/missions/sts-68/news/sts-68-mcc-05.txt HTTP/1.0" 200 1839']
         test_rdd = sc.parallelize(test_data)
 
         expected_data = Row(
@@ -91,7 +95,7 @@ class test_etl_logs():
         expected_df = spark.createDataFrame(expected_data)
         expected_df = expected_df.withColumn('timestamp', F.to_timestamp(df.timestamp, 'dd/MMM/yyyy:HH:mm:ss Z'))
 
-        assert = transform(test_rdd).collect() == expected_df.collect()
+        assert transform(test_rdd).collect() == expected_df.collect()
 
     @mock.patch.object(etl_server_logs, 'read_data')
     @mock.patch.object(etl_server_logs, 'export_data')

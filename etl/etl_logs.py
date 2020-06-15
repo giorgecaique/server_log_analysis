@@ -11,7 +11,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.project_config import project_config
 from etl.base.etl import base_etl
 
-spark = SparkSession.builder.appName('etl_log_analysis').getOrCreate()
+spark = SparkSession.builder\
+                    .appName('etl_log_analysis')\
+                    .master('local[*]')\
+                    .getOrCreate()
+
 sc = spark.sparkContext
 
 config = project_config.get_config()
